@@ -13,6 +13,9 @@ exports.up = async function (knex) {
     table.string("type", 128).notNull();
     table.integer("intensity").notNull();
     table.integer("max_clients").notNull();
+    table.string("day").notNull();
+    table.string("start_time").notNull();
+    table.string("location").notNull();
   });
 
   await knex.schema.createTable("clients", (table) => {
@@ -38,8 +41,6 @@ exports.up = async function (knex) {
       .inTable("instructors")
       .onUpdate("CASCADE")
       .onDelete("CASCADE");
-    table.string("start_time").notNull();
-    table.string("location").notNull();
     table.primary(["instructor_id", "class_id"]);
   });
 };
