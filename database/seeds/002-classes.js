@@ -7,6 +7,7 @@ exports.seed = async function (knex) {
       max_clients: 5,
       day: "Wednesday",
       start_time: "12:00",
+      duration: "2 hours",
       location: "San Pedro",
     },
     {
@@ -16,6 +17,7 @@ exports.seed = async function (knex) {
       max_clients: 5,
       day: "Wednesday",
       start_time: "12:00",
+      duration: "2 hours",
       location: "San Pedro",
     },
     {
@@ -25,6 +27,7 @@ exports.seed = async function (knex) {
       max_clients: 5,
       day: "Wednesday",
       start_time: "12:00",
+      duration: "2 hours",
       location: "San Pedro",
     },
     {
@@ -34,6 +37,7 @@ exports.seed = async function (knex) {
       max_clients: 5,
       day: "Wednesday",
       start_time: "12:00",
+      duration: "2 hours",
       location: "San Pedro",
     },
   ]);
