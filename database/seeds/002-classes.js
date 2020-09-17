@@ -1,0 +1,28 @@
+exports.seed = async function (knex) {
+  await knex("classes").insert([
+    {
+      name: "Zumba",
+      type: "Aerobic",
+      intensity: 4,
+      max_clients: 5,
+    },
+    {
+      name: "Yoga",
+      type: "Aerobic",
+      intensity: 2,
+      max_clients: 5,
+    },
+    {
+      name: "Meditation",
+      type: "Aerobic",
+      intensity: 1,
+      max_clients: 5,
+    },
+    {
+      name: "Boxing",
+      type: "Aerobic",
+      intensity: 4,
+      max_clients: 5,
+    },
+  ]);
+};
