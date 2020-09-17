@@ -42,6 +42,7 @@ exports.up = async function (knex) {
       .onUpdate("CASCADE")
       .onDelete("CASCADE");
     table.primary(["instructor_id", "class_id"]);
+    //table.array("participants")
   });
 };
 
