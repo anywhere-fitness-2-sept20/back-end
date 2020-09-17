@@ -11,7 +11,7 @@ const router = express.Router();
 router.get("/clients", restrict("instructor"), async (req, res, next) => {
   try {
     console.log(req.headers);
-    res.json(await usersModel.find());
+    res.json(await usersModel.findClients());
   } catch (err) {
     next(err);
   }

@@ -9,12 +9,12 @@ End point requires a name, username, password, and role ("instructor" or "client
 End point requires a username, password, and role. (same format as before)
 
 There are 4 clients to login with,
-ExistingClient1 - 4 //Currently case sensitive
-ClientPass1 - 4
+username: ExistingClient1 - 4 //Currently case sensitive
+password: ClientPass1 - 4
 
 There are 2 instructors to login with,
-ExistingInstructor1 - 2
-instructorPass1 - 2
+username: ExistingInstructor1 - 2
+password: instructorPass1 - 2
 
 I have added a few class types to choose from in the database.
-Zumba, Yoga, Meditation, and Boxingy
+Zumba, Yoga, Meditation, and Boxing
