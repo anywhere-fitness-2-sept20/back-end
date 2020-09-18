@@ -1,10 +1,8 @@
-// require("dotenv/config");
+require("dotenv");
 const express = require("express");
 const cors = require("cors");
 const helmet = require("helmet");
 const session = require("express-session");
-// May need cookie parser installed
-// server.use(cookieParser())
 
 const usersRouter = require("./users-auth/users-router");
 
