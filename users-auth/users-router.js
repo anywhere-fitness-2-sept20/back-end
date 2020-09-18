@@ -67,7 +67,7 @@ router.post("/login", async (req, res, next) => {
 
     if (role === "instructor") {
       const user = await usersModel.findByInstructors({ username }).first();
-      console.log(user);
+      console.log("Login user object", user);
 
       if (user && (await bcryptjs.compare(password, user.password))) {
         const token = generateToken(user);
@@ -91,6 +91,7 @@ router.post("/login", async (req, res, next) => {
           .json({ message: "Invalid username or password" });
       }
     }
+    next();
   } catch (err) {
     next(err);
   }

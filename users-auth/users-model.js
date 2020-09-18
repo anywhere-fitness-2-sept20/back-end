@@ -23,11 +23,11 @@ function findById(id) {
 }
 
 function findByInstructors(filter) {
-  return db("instructors").select("id", "name", "username").where(filter);
+  return db("instructors").select("*").where(filter);
 }
 
 function findByClients(filter) {
-  return db("clients").select("id", "name", "username").where(filter);
+  return db("clients").select("*").where(filter);
 }
 
 module.exports = {

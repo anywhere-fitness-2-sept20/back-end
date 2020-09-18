@@ -15,6 +15,7 @@ exports.up = async function (knex) {
     table.integer("max_clients").notNull();
     table.string("day").notNull();
     table.string("start_time").notNull();
+    table.string("duration").notNull();
     table.string("location").notNull();
   });
 
