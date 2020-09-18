@@ -42,7 +42,7 @@ router.post("/register", async (req, res, next) => {
         return res.status(409).json({ message: "Username must be unique" });
       }
 
-      console.log("client if", name, username, password, role);
+      // console.log("client if", name, username, password, role);
       const newUser = await usersModel.addClient({
         name,
         username,

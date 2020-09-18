@@ -17,7 +17,40 @@ router.get(
   }
 );
 
-router.post();
+router.post(
+  "/instructors/classes",
+  restrict("instructors"),
+  async (req, res, next) => {
+    try {
+      const {
+        name,
+        type,
+        intensity,
+        max_clients,
+        day,
+        start_time,
+        duration,
+        location,
+      } = req.body;
+      // if statements to verify the data
+
+      const newClass = await instructorModel.addClass({
+        name,
+        type,
+        intensity,
+        max_clients,
+        day,
+        start_time,
+        duration,
+        location,
+      });
+
+      return res.status(201).json({ newClass });
+    } catch (err) {
+      next(err);
+    }
+  }
+);
 
 router.put();
 

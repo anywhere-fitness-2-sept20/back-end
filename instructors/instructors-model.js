@@ -2,9 +2,14 @@ const db = require("../database/config");
 
 function find() {}
 
-function findById(id) {}
+function findById(id) {
+  return db("classes").select("*").where({id}).first()
+}
 
-function add(newClass) {}
+function addClass(newClass) {
+  const [id] = await db("classes").insert(newClass)
+  return findById(id)
+}
 
 function update(changes, id) {}
 
@@ -13,7 +18,7 @@ function remove(id) {}
 module.exports = {
   find,
   findById,
-  add,
+  addClass,
   update,
   remove,
 };

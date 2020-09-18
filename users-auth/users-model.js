@@ -18,6 +18,7 @@ function findClients() {
   return db("clients").select("id", "name", "username");
 }
 
+// Need a find clients ID as well
 function findById(id) {
   return db("instructors").select("*").where({ id }).first();
 }
