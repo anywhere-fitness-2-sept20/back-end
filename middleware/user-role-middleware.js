@@ -17,7 +17,7 @@ function restrict(role) {
         }
         if (role && roles.indexOf(decoded.role) < roles.indexOf(role)) {
           console.log("JWT.verify if(role)", decoded);
-          return res.status(403).json({ message: "You shall not pass" });
+          return res.status(403).json({ authError });
         }
         req.token = decoded;
       });

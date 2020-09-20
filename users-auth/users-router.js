@@ -7,9 +7,10 @@ const secret = process.env.JWT_SECRET || "Secret word";
 const { restrict } = require("../middleware/user-role-middleware");
 const usersModel = require("./users-model");
 const router = express.Router();
+// Needs an endpoint to update the users info
 
-//List of users to make sure the api works
-router.get("/classes", async (req, res, next) => {
+//List of users to make sure the api works add login restrictions
+router.get("/classes", restrict("client"), async (req, res, next) => {
   try {
     res.json(await usersModel.findClasses());
   } catch (err) {

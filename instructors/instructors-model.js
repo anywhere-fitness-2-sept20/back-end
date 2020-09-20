@@ -1,5 +1,7 @@
 const db = require("../database/config");
 
+// I dont think this function is required.
+// findClassById seems to do the job just fine.
 function findClass() {}
 
 function findInstructorClasses(id) {
