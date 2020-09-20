@@ -1,24 +1,38 @@
 const db = require("../database/config");
 
-function find() {}
+// I dont think this function is required.
+// findClassById seems to do the job just fine.
+function findClass() {}
 
-function findById(id) {
-  return db("classes").select("*").where({id}).first()
+function findInstructorClasses(id) {
+  return db("classes").select("*").where({ instructor_id: id });
 }
 
-function addClass(newClass) {
-  const [id] = await db("classes").insert(newClass)
-  return findById(id)
+function findClassById(id) {
+  return db("classes").select("*").where({ id }).first();
 }
 
-function update(changes, id) {}
+async function addClass(newClass) {
+  const [id] = await db("classes").insert(newClass);
+  return findClassById(id);
+}
 
-function remove(id) {}
+async function updateClass(id, changes) {
+  console.log("model", id, changes);
+  await db("classes").where({ id }).update(changes);
+  return findClassById(id);
+}
+
+function removeClass(id) {
+  console.log("model", id);
+  return db("classes").where({ id }).delete();
+}
 
 module.exports = {
-  find,
-  findById,
+  findClass,
+  findClassById,
   addClass,
-  update,
-  remove,
+  updateClass,
+  removeClass,
+  findInstructorClasses,
 };

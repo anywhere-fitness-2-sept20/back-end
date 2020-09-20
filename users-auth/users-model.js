@@ -31,6 +31,10 @@ function findByClients(filter) {
   return db("clients").select("*").where(filter);
 }
 
+function findClasses() {
+  return db("classes").select("*");
+}
+
 module.exports = {
   addInstructor,
   addClient,
@@ -39,4 +43,5 @@ module.exports = {
   findById,
   findByInstructors,
   findByClients,
+  findClasses,
 };

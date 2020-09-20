@@ -9,6 +9,7 @@ exports.seed = async function (knex) {
       start_time: "12:00",
       duration: "2 hours",
       location: "San Pedro",
+      instructor_id: 1,
     },
     {
       name: "Yoga",
@@ -19,6 +20,7 @@ exports.seed = async function (knex) {
       start_time: "12:00",
       duration: "2 hours",
       location: "San Pedro",
+      instructor_id: 1,
     },
     {
       name: "Meditation",
@@ -29,6 +31,7 @@ exports.seed = async function (knex) {
       start_time: "12:00",
       duration: "2 hours",
       location: "San Pedro",
+      instructor_id: 1,
     },
     {
       name: "Boxing",
@@ -39,6 +42,7 @@ exports.seed = async function (knex) {
       start_time: "12:00",
       duration: "2 hours",
       location: "San Pedro",
+      instructor_id: 1,
     },
   ]);
 };

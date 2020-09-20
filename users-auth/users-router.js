@@ -1,17 +1,18 @@
 const express = require("express");
 const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const secret = process.env.JWT_SECRET || "Secret word";
 
 // Middleware to verify account types
 const { restrict } = require("../middleware/user-role-middleware");
 const usersModel = require("./users-model");
 const router = express.Router();
+// Needs an endpoint to update the users info
 
-//List of users to make sure the api works
-router.get("/clients", restrict("instructor"), async (req, res, next) => {
+//List of users to make sure the api works add login restrictions
+router.get("/classes", restrict("client"), async (req, res, next) => {
   try {
-    console.log(req.headers);
-    res.json(await usersModel.findClients());
+    res.json(await usersModel.findClasses());
   } catch (err) {
     next(err);
   }
@@ -28,7 +29,6 @@ router.post("/register", async (req, res, next) => {
         return res.status(409).json({ message: "Username must be unique" });
       }
 
-      console.log("instructor if", name, username, password, role);
       const newUser = await usersModel.addInstructor({
         name,
         username,
@@ -42,7 +42,6 @@ router.post("/register", async (req, res, next) => {
         return res.status(409).json({ message: "Username must be unique" });
       }
 
-      // console.log("client if", name, username, password, role);
       const newUser = await usersModel.addClient({
         name,
         username,
@@ -67,7 +66,7 @@ router.post("/login", async (req, res, next) => {
 
     if (role === "instructor") {
       const user = await usersModel.findByInstructors({ username }).first();
-      console.log("Login user object", user);
+      // console.log("Login user object", user);
 
       if (user && (await bcryptjs.compare(password, user.password))) {
         const token = generateToken(user);
@@ -124,7 +123,7 @@ function generateToken(user) {
     expiresIn: "1d",
   };
 
-  return jwt.sign(payload, process.env.JWT_SECRET, options);
+  return jwt.sign(payload, secret, options);
 }
 
 module.exports = router;
