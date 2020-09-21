@@ -17,7 +17,7 @@ router.get("/clients", restrict("instructor"), async (req, res, next) => {
   }
 });
 
-//Get a full list of classes
+//Get a full list of classes and all info including clients in the class
 router.get("/:id/classes", restrict("instructor"), async (req, res, next) => {
   try {
     res.json(await instructorsModel.findInstructorClasses(req.params.id));
@@ -26,6 +26,14 @@ router.get("/:id/classes", restrict("instructor"), async (req, res, next) => {
   }
 });
 
+router.get("", async (req, res, next) => {
+  try {
+  } catch (err) {
+    next(err);
+  }
+});
+
+// Creates a new fitness class
 router.post("/:id/classes", restrict("instructor"), async (req, res, next) => {
   try {
     const {
@@ -63,18 +71,7 @@ router.put(
   restrict("instructor"),
   async (req, res, next) => {
     try {
-      // const {
-      //   name,
-      //   type,
-      //   intensity,
-      //   max_clients,
-      //   day,
-      //   start_time,
-      //   duration,
-      //   location,
-      // } = req.body;
-
-      console.log("router", req.body);
+      // Verify the max_clients is not less than the number of clients already in the class
       const updatedClass = await instructorsModel.updateClass(
         req.params.classId,
         req.body

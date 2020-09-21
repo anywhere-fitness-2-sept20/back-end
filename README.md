@@ -11,12 +11,12 @@ password: instructorPass1 - 2
 
 The Anywhere Fitness Database Endpoints
 
-## User Endpoints
+# User Endpoints
 
 The main database url is /api/fitness. All other endpoints add to this.
 User Endpoints apply to instructors and clients.
 
-# Method | Endpoint | Description
+## Method | Endpoint | Description
 
 | POST | /register | Creates a `user`. Requires: name, username, password, role.
 
@@ -24,11 +24,11 @@ User Endpoints apply to instructors and clients.
 
 | GET | /classes | Returns a list of all available classes. User must be logged in.
 
-## Instructor Endpoints
+# Instructor Endpoints
 
 Insructor endpoints return a 403 error when clients attempt to access.
 
-# Method | Endpoint | Description
+## Method | Endpoint | Description
 
 | GET | /clients | Returns a list of all clients
 | GET | /:id/classes | Returns a list of all classes from instructor with matching id
@@ -40,4 +40,6 @@ Requires: name, type, intensity, max_clients, day, start_time, duration, locatio
 
 | DELETE | /:id/classes/:classId | Deletes existing class
 
-## Client endpoints to come
+# Client endpoints to come
+
+## Method | Endpoint | Description
