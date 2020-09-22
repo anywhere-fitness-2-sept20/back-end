@@ -9,72 +9,83 @@ const usersModel = require("../users-auth/users-model");
 const router = express.Router();
 
 //Get a list of clients (Instructors only)
-router.get("/clients", restrict("instructor"), async (req, res, next) => {
-  try {
-    res.json(await usersModel.findClients());
-  } catch (err) {
-    next(err);
-  }
-});
-
-//Get a full list of classes
-router.get("/:id/classes", restrict("instructor"), async (req, res, next) => {
-  try {
-    res.json(await instructorsModel.findInstructorClasses(req.params.id));
-  } catch (err) {
-    next(err);
-  }
-});
-
-router.post("/:id/classes", restrict("instructor"), async (req, res, next) => {
-  try {
-    const {
-      name,
-      type,
-      intensity,
-      max_clients,
-      day,
-      start_time,
-      duration,
-      location,
-    } = req.body;
-
-    // if statements to verify the data
-
-    const newClass = await instructorsModel.addClass({
-      name,
-      type,
-      intensity,
-      max_clients,
-      day,
-      start_time,
-      duration,
-      location,
-      instructor_id: req.params.id,
-    });
-    return res.status(201).json({ newClass });
-  } catch (err) {
-    next(err);
-  }
-});
-
-router.put(
-  "/:id/classes/:classId",
+router.get(
+  "/instructors/clients",
   restrict("instructor"),
   async (req, res, next) => {
     try {
-      // const {
-      //   name,
-      //   type,
-      //   intensity,
-      //   max_clients,
-      //   day,
-      //   start_time,
-      //   duration,
-      //   location,
-      // } = req.body;
+      res.json(await usersModel.findClients());
+    } catch (err) {
+      next(err);
+    }
+  }
+);
 
-      console.log("router", req.body);
+//Get a list of instructor classes and clients in each class
+router.get(
+  "/instructors/:instructorId/classes",
+  restrict("instructor"),
+  async (req, res, next) => {
+    try {
+      res.json(
+        await instructorsModel.findInstructorClasses(req.params.instructorId)
+      );
+    } catch (err) {
+      next(err);
+    }
+  }
+);
+
+router.get("", async (req, res, next) => {
+  try {
+  } catch (err) {
+    next(err);
+  }
+});
+
+// Creates a new fitness class
+router.post(
+  "/instructors/:instructorId/classes",
+  restrict("instructor"),
+  async (req, res, next) => {
+    try {
+      const {
+        name,
+        type,
+        intensity,
+        max_clients,
+        day,
+        start_time,
+        duration,
+        location,
+      } = req.body;
+
+      // if statements to verify the data
+
+      const newClass = await instructorsModel.addClass({
+        name,
+        type,
+        intensity,
+        max_clients,
+        day,
+        start_time,
+        duration,
+        location,
+        instructor_id: req.params.instructorId,
+      });
+      return res.status(201).json({ newClass });
+    } catch (err) {
+      next(err);
+    }
+  }
+);
+
+router.put(
+  "/instructors/:instructorId/classes/:classId",
+  restrict("instructor"),
+  async (req, res, next) => {
+    try {
+      // Verify the max_clients is not less than the number of clients already in the class
       const updatedClass = await instructorsModel.updateClass(
         req.params.classId,
         req.body
@@ -88,10 +99,11 @@ router.put(
 );
 
 router.delete(
-  "/:id/classes/:classId",
+  "/instructors/:instructorId/classes/:classId",
   restrict("instructor"),
   async (req, res, next) => {
     try {
+      // Verify instructor trying to delete class is the class owner
       await instructorsModel.removeClass(req.params.classId);
       res.status(204).end();
     } catch (err) {

@@ -35,6 +35,10 @@ function findClasses() {
   return db("classes").select("*");
 }
 
+function findClassById(id) {
+  return db("classes").select("*").where({ id });
+}
+
 module.exports = {
   addInstructor,
   addClient,
@@ -44,4 +48,5 @@ module.exports = {
   findByInstructors,
   findByClients,
   findClasses,
+  findClassById,
 };

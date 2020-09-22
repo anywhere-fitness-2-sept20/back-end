@@ -9,10 +9,27 @@ const usersModel = require("./users-model");
 const router = express.Router();
 // Needs an endpoint to update the users info
 
-//List of users to make sure the api works add login restrictions
-router.get("/classes", restrict("client"), async (req, res, next) => {
+//Returns a list of classes
+router.get("/classes", async (req, res, next) => {
   try {
     res.json(await usersModel.findClasses());
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.get("/classes/:classId", async (req, res, next) => {
+  try {
+    res.json(await usersModel.findClassById(req.params.classId));
+  } catch (err) {
+    next(err);
+  }
+});
+
+// Returns a list of instructors
+router.get("/instructors", async (req, res, next) => {
+  try {
+    res.json(await usersModel.findInstructors());
   } catch (err) {
     next(err);
   }

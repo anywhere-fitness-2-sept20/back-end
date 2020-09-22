@@ -15,15 +15,27 @@ exports.seed = async function (knex) {
       role: "client",
     },
     {
-      name: "Billy",
+      name: "Billy Batson",
       username: "ExistingClient3",
-      password: await bcryptjs.hash("ClientPass1", 2),
+      password: await bcryptjs.hash("ClientPass3", 2),
       role: "client",
     },
     {
-      name: "Another Person",
+      name: "Bruce Whine",
       username: "ExistingClient4",
-      password: await bcryptjs.hash("ClientPass2", 2),
+      password: await bcryptjs.hash("ClientPass4", 2),
+      role: "client",
+    },
+    {
+      name: "Johnny Doe",
+      username: "ExistingClient5",
+      password: await bcryptjs.hash("ClientPass5", 2),
+      role: "client",
+    },
+    {
+      name: "Anonymous Person",
+      username: "ExistingClient6",
+      password: await bcryptjs.hash("ClientPass6", 2),
       role: "client",
     },
   ]);

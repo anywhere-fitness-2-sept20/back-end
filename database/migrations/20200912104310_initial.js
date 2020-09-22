@@ -28,21 +28,15 @@ exports.up = async function (knex) {
     table.integer("instructor_id").references("id").inTable("instructors");
   });
 
-  // await knex.schema.createTable("instructors_classes", (table) => {
-  //   table
-  //     .integer("class_id")
-  //     .notNull()
-  //     .references("id")
-  //     .inTable("classes")
-  //     .onUpdate("CASCADE")
-  //     .onDelete("CASCADE");
-  //   table.primary(["instructor_id", "class_id"]);
-  //   table.array("participants");
-  // });
+  await knex.schema.createTable("classes_clients", (table) => {
+    table.integer("client_id").references("id").inTable("clients");
+    table.integer("class_id").references("id").inTable("classes");
+    table.primary(["client_id", "class_id"]);
+  });
 };
 
 exports.down = async function (knex) {
-  await knex.schema.dropTableIfExists("instructors_classes");
+  await knex.schema.dropTableIfExists("classes_clients");
   await knex.schema.dropTableIfExists("clients");
   await knex.schema.dropTableIfExists("classes");
   await knex.schema.dropTableIfExists("instructors");

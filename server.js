@@ -5,6 +5,7 @@ const helmet = require("helmet");
 const session = require("express-session");
 
 const usersRouter = require("./users-auth/users-router");
+const clientsRouter = require("./clients/clients-router");
 const instructorsRouter = require("./instructors/instructors-router");
 
 const server = express();
@@ -20,7 +21,7 @@ server.use(
   })
 );
 
-server.use("/api/fitness", usersRouter, instructorsRouter);
+server.use("/api/fitness", usersRouter, instructorsRouter, clientsRouter);
 server.get("/", (req, res) => {
   res.json({ message: "Welcome to the server 2.0" });
 });
