@@ -1,6 +1,7 @@
 exports.seed = async function (knex) {
   await knex("classes").insert([
     {
+      image_url: "",
       name: "Zumba",
       type: "Aerobic",
       intensity: 4,
@@ -12,6 +13,7 @@ exports.seed = async function (knex) {
       instructor_id: 1,
     },
     {
+      image_url: "",
       name: "Yoga",
       type: "Aerobic",
       intensity: 2,
@@ -20,9 +22,10 @@ exports.seed = async function (knex) {
       start_time: "12:00",
       duration: "2 hours",
       location: "San Pedro",
-      instructor_id: 1,
+      instructor_id: 2,
     },
     {
+      image_url: "",
       name: "Meditation",
       type: "Aerobic",
       intensity: 1,
@@ -31,9 +34,10 @@ exports.seed = async function (knex) {
       start_time: "12:00",
       duration: "2 hours",
       location: "San Pedro",
-      instructor_id: 1,
+      instructor_id: 2,
     },
     {
+      image_url: "",
       name: "Boxing",
       type: "Aerobic",
       intensity: 4,
@@ -42,7 +46,7 @@ exports.seed = async function (knex) {
       start_time: "12:00",
       duration: "2 hours",
       location: "San Pedro",
-      instructor_id: 1,
+      instructor_id: 2,
     },
   ]);
 };

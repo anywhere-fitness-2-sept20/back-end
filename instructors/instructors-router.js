@@ -9,22 +9,32 @@ const usersModel = require("../users-auth/users-model");
 const router = express.Router();
 
 //Get a list of clients (Instructors only)
-router.get("/clients", restrict("instructor"), async (req, res, next) => {
-  try {
-    res.json(await usersModel.findClients());
-  } catch (err) {
-    next(err);
+router.get(
+  "/instructors/clients",
+  restrict("instructor"),
+  async (req, res, next) => {
+    try {
+      res.json(await usersModel.findClients());
+    } catch (err) {
+      next(err);
+    }
   }
-});
+);
 
-//Get a full list of classes and all info including clients in the class
-router.get("/:id/classes", restrict("instructor"), async (req, res, next) => {
-  try {
-    res.json(await instructorsModel.findInstructorClasses(req.params.id));
-  } catch (err) {
-    next(err);
+//Get a list of instructor classes and clients in each class
+router.get(
+  "/instructors/:instructorId/classes",
+  restrict("instructor"),
+  async (req, res, next) => {
+    try {
+      res.json(
+        await instructorsModel.findInstructorClasses(req.params.instructorId)
+      );
+    } catch (err) {
+      next(err);
+    }
   }
-});
+);
 
 router.get("", async (req, res, next) => {
   try {
@@ -34,40 +44,44 @@ router.get("", async (req, res, next) => {
 });
 
 // Creates a new fitness class
-router.post("/:id/classes", restrict("instructor"), async (req, res, next) => {
-  try {
-    const {
-      name,
-      type,
-      intensity,
-      max_clients,
-      day,
-      start_time,
-      duration,
-      location,
-    } = req.body;
+router.post(
+  "/instructors/:instructorId/classes",
+  restrict("instructor"),
+  async (req, res, next) => {
+    try {
+      const {
+        name,
+        type,
+        intensity,
+        max_clients,
+        day,
+        start_time,
+        duration,
+        location,
+      } = req.body;
 
-    // if statements to verify the data
+      // if statements to verify the data
 
-    const newClass = await instructorsModel.addClass({
-      name,
-      type,
-      intensity,
-      max_clients,
-      day,
-      start_time,
-      duration,
-      location,
-      instructor_id: req.params.id,
-    });
-    return res.status(201).json({ newClass });
-  } catch (err) {
-    next(err);
+      const newClass = await instructorsModel.addClass({
+        name,
+        type,
+        intensity,
+        max_clients,
+        day,
+        start_time,
+        duration,
+        location,
+        instructor_id: req.params.instructorId,
+      });
+      return res.status(201).json({ newClass });
+    } catch (err) {
+      next(err);
+    }
   }
-});
+);
 
 router.put(
-  "/:id/classes/:classId",
+  "/instructors/:instructorId/classes/:classId",
   restrict("instructor"),
   async (req, res, next) => {
     try {
@@ -85,10 +99,11 @@ router.put(
 );
 
 router.delete(
-  "/:id/classes/:classId",
+  "/instructors/:instructorId/classes/:classId",
   restrict("instructor"),
   async (req, res, next) => {
     try {
+      // Verify instructor trying to delete class is the class owner
       await instructorsModel.removeClass(req.params.classId);
       res.status(204).end();
     } catch (err) {

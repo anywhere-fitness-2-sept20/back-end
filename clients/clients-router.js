@@ -9,15 +9,26 @@ const usersModel = require("../users-auth/users-model");
 const router = express.Router();
 
 // Allows client to join classes
-router.post("/client/:classId", async (res, req, next) => {
+router.post("/clients/:clientId", async (req, res, next) => {
   try {
-    console.log(req.body, req.params);
+    const clientId = parseInt(req.params.clientId, 10);
 
-    // await clientsModel.joinClass(req.body.clientId, req.params.classId);
+    const clientClass = clientsModel.findClientClass(
+      req.body.classId,
+      clientId
+    );
+    console.log(clientClass);
+    if (clientClass) {
+      return res
+        .status(400)
+        .json({ message: "Client has already joined that class" });
+    }
 
-    res.status(201).json({ message: "Class joined" });
+    await clientsModel.joinClass(req.body.classId, clientId);
+
+    res.status(201).json({ message: "Class joined successfully" });
+    next();
   } catch (err) {
-    console.log("router");
     next(err);
   }
 });
@@ -31,6 +42,16 @@ router.put("/clients/:clientId", async (req, res, next) => {
     );
 
     return res.status(200).json({ updatedClient });
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.delete("clients/:clientId/classes/:classId", async (req, res, next) => {
+  try {
+    console.log(req.params);
+    // const { clientId, classId } = req.params;
+    // await clientsModel.removeClass(clientId, classId);
   } catch (err) {
     next(err);
   }
