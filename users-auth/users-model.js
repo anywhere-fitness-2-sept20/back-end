@@ -2,12 +2,13 @@ const db = require("../database/config");
 
 async function addInstructor(user) {
   const [id] = await db("instructors").insert(user);
-  return findInstructorById(id);
+  return findByInstructorId(id);
 }
 
 async function addClient(user) {
   const [id] = await db("clients").insert(user);
-  return findClientById(id);
+  console.log("model", id);
+  return findByClientId(id);
 }
 
 function findInstructors() {
