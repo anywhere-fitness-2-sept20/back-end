@@ -5,8 +5,16 @@ const secret = process.env.JWT_SECRET || "Secret word";
 
 const { restrict } = require("../middleware/user-role-middleware");
 const clientsModel = require("../clients/clients-model");
-const usersModel = require("../users-auth/users-model");
 const router = express.Router();
+
+// Returns a list of classes that a client is signed up for
+router.get("/clients/:clientId/classes", async (req, res, next) => {
+  try {
+    res.json(await clientsModel.findClientsClasses(req.params.clientId));
+  } catch (err) {
+    next(err);
+  }
+});
 
 // Allows client to join classes
 router.post("/clients/:clientId", async (req, res, next) => {
@@ -49,9 +57,7 @@ router.put("/clients/:clientId", async (req, res, next) => {
 
 router.delete("clients/:clientId/classes/:classId", async (req, res, next) => {
   try {
-    console.log(req.params);
-    // const { clientId, classId } = req.params;
-    // await clientsModel.removeClass(clientId, classId);
+    console.log("router");
   } catch (err) {
     next(err);
   }
