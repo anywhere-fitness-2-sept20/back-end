@@ -1,9 +1,19 @@
 const db = require("../database/config");
 
+// Function too generic and remains unused
 function find() {}
 
 function findClientClass(class_id, client_id) {
   return db("class_clients").where({ class_id, client_id });
+}
+
+//Poor naming convention
+function findClientsClasses(clientId) {
+  return db("classes_clients")
+    .join("classes", "classes.id", "classes_clients.class_id")
+    .join("clients", "clients.id", "classes_clients.client_id")
+    .join("instructors", "classes.instructor_id", "instructors.id")
+    .where({ client_id: clientId });
 }
 
 function findClientById(id) {
@@ -28,6 +38,7 @@ function removeClass(client_id, class_id) {
 
 module.exports = {
   find,
+  findClientsClasses,
   findClientClass,
   findClientById,
   joinClass,

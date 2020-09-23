@@ -2,12 +2,12 @@ const db = require("../database/config");
 
 async function addInstructor(user) {
   const [id] = await db("instructors").insert(user);
-  return findById(id);
+  return findInstructorById(id);
 }
 
 async function addClient(user) {
   const [id] = await db("clients").insert(user);
-  return findById(id);
+  return findClientById(id);
 }
 
 function findInstructors() {
@@ -18,9 +18,12 @@ function findClients() {
   return db("clients").select("id", "name", "username");
 }
 
-// Need a find clients ID as well
-function findById(id) {
+function findByInstructorId(id) {
   return db("instructors").select("*").where({ id }).first();
+}
+
+function findByClientId(id) {
+  return db("clients").select("*").where({ id }).first();
 }
 
 function findByInstructors(filter) {
@@ -44,7 +47,8 @@ module.exports = {
   addClient,
   findInstructors,
   findClients,
-  findById,
+  findByInstructorId,
+  findByClientId,
   findByInstructors,
   findByClients,
   findClasses,

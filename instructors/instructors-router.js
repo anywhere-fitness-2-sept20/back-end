@@ -8,7 +8,7 @@ const instructorsModel = require("./instructors-model");
 const usersModel = require("../users-auth/users-model");
 const router = express.Router();
 
-//Get a list of clients (Instructors only)
+// Get a list of clients (Instructors only)
 router.get(
   "/instructors/clients",
   restrict("instructor"),
@@ -21,7 +21,7 @@ router.get(
   }
 );
 
-//Get a list of instructor classes and clients in each class
+// Get a list of instructor classes and clients in each class
 router.get(
   "/instructors/:instructorId/classes",
   restrict("instructor"),
@@ -36,6 +36,7 @@ router.get(
   }
 );
 
+// What do I need this for?
 router.get("", async (req, res, next) => {
   try {
   } catch (err) {
@@ -80,6 +81,7 @@ router.post(
   }
 );
 
+// Updates an existing class
 router.put(
   "/instructors/:instructorId/classes/:classId",
   restrict("instructor"),
@@ -98,6 +100,7 @@ router.put(
   }
 );
 
+// Deletes an existing class
 router.delete(
   "/instructors/:instructorId/classes/:classId",
   restrict("instructor"),

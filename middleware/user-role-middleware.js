@@ -6,7 +6,6 @@ function restrict(role) {
   return async (req, res, next) => {
     const authError = { message: "Instructors only. No Clients" };
     try {
-      // console.log("Auth Middleware", req.headers.authorization);
       const token = req.headers.authorization;
       if (!token) {
         return res.status(401).json({ message: "No token" });

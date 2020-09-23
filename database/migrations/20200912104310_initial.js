@@ -17,6 +17,7 @@ exports.up = async function (knex) {
 
   await knex.schema.createTable("classes", (table) => {
     table.increments("id");
+    table.string("image_url").defaultTo("");
     table.string("name", 128).notNull();
     table.string("type", 128).notNull();
     table.integer("intensity").notNull();
