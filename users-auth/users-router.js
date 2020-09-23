@@ -51,8 +51,12 @@ router.post("/register", async (req, res, next) => {
         username,
         password: await bcryptjs.hash(password, 2),
       });
+
+      return res.status(201).json(newUser);
     } else if (role == "client") {
+      console.log(username);
       const user = await usersModel.findByClients({ username }).first();
+
       if (user) {
         return res.status(409).json({ message: "Username must be unique" });
       }
@@ -62,13 +66,13 @@ router.post("/register", async (req, res, next) => {
         username,
         password: await bcryptjs.hash(password, 2),
       });
+
+      return res.status(201).json(newUser);
     } else {
       return res
         .status(400)
         .json({ message: "Please pick instructor or client" });
     }
-
-    return res.status(201).json(newUser);
   } catch (err) {
     next(err);
   }
