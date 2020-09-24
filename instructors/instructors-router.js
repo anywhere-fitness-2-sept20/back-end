@@ -3,28 +3,24 @@ const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const secret = process.env.JWT_SECRET || "Secret word";
 
-const { restrict } = require("../middleware/user-role-middleware");
+const { instructorOnly } = require("../middleware/user-role-middleware");
 const instructorsModel = require("./instructors-model");
 const usersModel = require("../users-auth/users-model");
 const router = express.Router();
 
 // Get a list of clients (Instructors only)
-router.get(
-  "/instructors/clients",
-  restrict("instructor"),
-  async (req, res, next) => {
-    try {
-      res.json(await usersModel.findClients());
-    } catch (err) {
-      next(err);
-    }
+router.get("/instructors/clients", instructorOnly(), async (req, res, next) => {
+  try {
+    res.json(await usersModel.findClients());
+  } catch (err) {
+    next(err);
   }
-);
+});
 
 // Get a list of instructor classes and clients in each class
 router.get(
   "/instructors/:instructorId/classes",
-  restrict("instructor"),
+  instructorOnly(),
   async (req, res, next) => {
     try {
       res.json(
@@ -36,21 +32,14 @@ router.get(
   }
 );
 
-// What do I need this for?
-router.get("", async (req, res, next) => {
-  try {
-  } catch (err) {
-    next(err);
-  }
-});
-
 // Creates a new fitness class
 router.post(
   "/instructors/:instructorId/classes",
-  restrict("instructor"),
+  instructorOnly(),
   async (req, res, next) => {
     try {
       const {
+        image_url,
         name,
         type,
         intensity,
@@ -62,8 +51,23 @@ router.post(
       } = req.body;
 
       // if statements to verify the data
+      if (
+        !name ||
+        !type ||
+        !intensity ||
+        !max_clients ||
+        !day ||
+        !start_time ||
+        !duration ||
+        !location
+      ) {
+        return res.status(400).json({
+          message: "Cannot create a fitness class with missing information.",
+        });
+      }
 
       const newClass = await instructorsModel.addClass({
+        image_url,
         name,
         type,
         intensity,
@@ -84,7 +88,7 @@ router.post(
 // Updates an existing class
 router.put(
   "/instructors/:instructorId/classes/:classId",
-  restrict("instructor"),
+  instructorOnly(),
   async (req, res, next) => {
     try {
       // Verify the max_clients is not less than the number of clients already in the class
@@ -103,7 +107,7 @@ router.put(
 // Deletes an existing class
 router.delete(
   "/instructors/:instructorId/classes/:classId",
-  restrict("instructor"),
+  instructorOnly(),
   async (req, res, next) => {
     try {
       // Verify instructor trying to delete class is the class owner

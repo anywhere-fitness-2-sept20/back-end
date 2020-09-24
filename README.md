@@ -47,4 +47,4 @@ Requires: name, type, intensity, max_clients, day, start_time, duration, locatio
 
 | POST | /clients/:clientId | Allows client to join a fitness class
 | PUT | /clients/:clientId | Allows client to update their information
-| DELETE | /clients/:clientId/classes/:classId| Removes client from class (currently broken)
+| DELETE | /clients/:clientId/classes/ | Removes client from class (currently broken)

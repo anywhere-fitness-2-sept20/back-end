@@ -11,6 +11,7 @@ async function addClient(user) {
   return findByClientId(id);
 }
 
+//
 function findInstructors() {
   return db("instructors").select("id", "name", "username");
 }
@@ -20,11 +21,17 @@ function findClients() {
 }
 
 function findByInstructorId(id) {
-  return db("instructors").select("*").where({ id }).first();
+  return db("instructors")
+    .select("id", "name", "username", "role")
+    .where({ id })
+    .first();
 }
 
 function findByClientId(id) {
-  return db("clients").select("*").where({ id }).first();
+  return db("clients")
+    .select("id", "name", "username", "role")
+    .where({ id })
+    .first();
 }
 
 function findByInstructors(filter) {
@@ -35,10 +42,12 @@ function findByClients(filter) {
   return db("clients").select("*").where(filter);
 }
 
+//
 function findClasses() {
   return db("classes").select("*");
 }
 
+//
 function findClassById(id) {
   return db("classes").select("*").where({ id });
 }
