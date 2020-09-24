@@ -1,8 +1,7 @@
 const jwt = require("jsonwebtoken");
 const secret = process.env.JWT_SECRET || "Secret word";
 
-function clientOnly(role) {
-  const roles = "client";
+function clientOnly() {
   return async (req, res, next) => {
     const authError = { message: "Clients only. No Instructors" };
     try {
@@ -14,9 +13,9 @@ function clientOnly(role) {
         if (err) {
           return res.status(401).json(authError);
         }
-        if (role !== roles) {
-          console.log("JWT.verify if(role)", decoded);
-          return res.status(403).json({ authError });
+        if (decoded.role !== "client") {
+          // console.log("JWT.verify if(role)", decoded);
+          return res.status(403).json(authError);
         }
         req.token = decoded;
       });

@@ -4,10 +4,9 @@ const jwt = require("jsonwebtoken");
 const secret = process.env.JWT_SECRET || "Secret word";
 
 // Middleware to verify account types
-const { restrict } = require("../middleware/user-role-middleware");
+// const { restrict } = require("../middleware/user-role-middleware");
 const usersModel = require("./users-model");
 const router = express.Router();
-// Needs an endpoint to update the users info
 
 //Returns a list of classes
 router.get("/classes", async (req, res, next) => {
@@ -18,6 +17,7 @@ router.get("/classes", async (req, res, next) => {
   }
 });
 
+// Returns details of a class by id
 router.get("/classes/:classId", async (req, res, next) => {
   try {
     res.json(await usersModel.findClassById(req.params.classId));
@@ -35,26 +35,34 @@ router.get("/instructors", async (req, res, next) => {
   }
 });
 
+// Do I need a router.get() for returning instructor details
+
 //Create new user
 router.post("/register", async (req, res, next) => {
   try {
-    const { name, username, password, role } = req.body;
+    const { name, username, password } = req.body;
+    const role = req.body.role.toLowerCase();
 
-    if (role == "instructor") {
+    if (!name || !username || !password) {
+      return res
+        .status(409)
+        .json({ message: "Incomplete information for registration" });
+    }
+
+    if (role === "instructor") {
       const user = await usersModel.findByInstructors({ username }).first();
       if (user) {
         return res.status(409).json({ message: "Username must be unique" });
       }
 
       const newUser = await usersModel.addInstructor({
-        name,
-        username,
+        name: name.toLowerCase(),
+        username: username.toLowerCase(),
         password: await bcryptjs.hash(password, 2),
       });
 
       return res.status(201).json(newUser);
-    } else if (role == "client") {
-      console.log(username);
+    } else if (role === "client") {
       const user = await usersModel.findByClients({ username }).first();
 
       if (user) {
@@ -62,8 +70,8 @@ router.post("/register", async (req, res, next) => {
       }
 
       const newUser = await usersModel.addClient({
-        name,
-        username,
+        name: name.toLowerCase(),
+        username: username.toLowerCase(),
         password: await bcryptjs.hash(password, 2),
       });
 
@@ -81,11 +89,12 @@ router.post("/register", async (req, res, next) => {
 //Login router
 router.post("/login", async (req, res, next) => {
   try {
-    const { username, password, role } = req.body;
+    const username = req.body.username.toLowerCase();
+    const role = req.body.role.toLowerCase();
+    const password = req.body.password;
 
     if (role === "instructor") {
       const user = await usersModel.findByInstructors({ username }).first();
-      // console.log("Login user object", user);
 
       if (user && (await bcryptjs.compare(password, user.password))) {
         const token = generateToken(user);
@@ -115,7 +124,7 @@ router.post("/login", async (req, res, next) => {
   }
 });
 
-//Logout router
+//Logout router Still broken
 router.get("/logout", async (req, res, next) => {
   try {
     req.session.destroy((err) => {
