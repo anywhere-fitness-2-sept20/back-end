@@ -7,11 +7,6 @@ const { clientOnly } = require("../middleware/client-middleware");
 const clientsModel = require("../clients/clients-model");
 const router = express.Router();
 
-// Returns a message to make sure the /clients route is active
-// router.get("/clients", (req, res, next) => {
-//   res.json({ message: "This is a message" });
-// });
-
 // Returns a list of all classes that a client is signed up for
 router.get(
   "/clients/:clientId/classes",
@@ -30,16 +25,19 @@ router.post("/clients/:clientId", clientOnly(), async (req, res, next) => {
   try {
     const clientId = parseInt(req.params.clientId, 10);
 
-    const clientClass = clientsModel.findClientClass(
+    const clientClass = await clientsModel.findClientClass(
       req.body.classId,
       clientId
     );
-    // console.log("Client class", clientClass);
-    if (clientClass) {
-      return res.status(400).json(clientClass);
+
+    console.log("Client class", clientClass);
+    if (clientClass.length > 0) {
+      return res
+        .status(409)
+        .json({ message: "You have already joined that class" });
     }
 
-    await clientsModel.joinClass(req.body.classId, clientId);
+    const newClass = await clientsModel.joinClass(req.body.classId, clientId);
 
     res.status(201).json({ message: "Class joined successfully" });
     next();

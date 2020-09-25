@@ -5,11 +5,7 @@ function find() {}
 
 function findClientClass(class_id, client_id) {
   console.log("model", class_id, client_id);
-  return db("classes_clients")
-    .join("classes", "classes.id", "classes_clients.class_id")
-    .join("clients", "clients.id", "classes_clients.client_id")
-    .where({ client_id: client_id })
-    .select("*");
+  return db("classes_clients").where({ client_id: client_id }).select("*");
 }
 
 //Poor naming convention
@@ -43,7 +39,7 @@ function findClientById(id) {
 
 // Add function taken care of by users-model.js
 async function joinClass(class_id, client_id) {
-  // await db("classes_clients").insert({ class_id, client_id });
+  await db("classes_clients").insert({ class_id, client_id });
   return;
 }
 

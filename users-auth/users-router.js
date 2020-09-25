@@ -5,11 +5,12 @@ const secret = process.env.JWT_SECRET || "Secret word";
 
 // Middleware to verify account types
 // const { restrict } = require("../middleware/user-role-middleware");
+const { loggedIn } = require("../middleware/logged-in-middleware");
 const usersModel = require("./users-model");
 const router = express.Router();
 
 //Returns a list of classes
-router.get("/classes", async (req, res, next) => {
+router.get("/classes", loggedIn(), async (req, res, next) => {
   try {
     res.json(await usersModel.findClasses());
   } catch (err) {
@@ -18,7 +19,7 @@ router.get("/classes", async (req, res, next) => {
 });
 
 // Returns details of a class by id
-router.get("/classes/:classId", async (req, res, next) => {
+router.get("/classes/:classId", loggedIn(), async (req, res, next) => {
   try {
     res.json(await usersModel.findClassById(req.params.classId));
   } catch (err) {
@@ -27,7 +28,7 @@ router.get("/classes/:classId", async (req, res, next) => {
 });
 
 // Returns a list of instructors
-router.get("/instructors", async (req, res, next) => {
+router.get("/instructors", loggedIn(), async (req, res, next) => {
   try {
     res.json(await usersModel.findInstructors());
   } catch (err) {
@@ -125,16 +126,8 @@ router.post("/login", async (req, res, next) => {
 });
 
 //Logout router Still broken
-router.get("/logout", async (req, res, next) => {
+router.get("/logout", loggedIn(), async (req, res, next) => {
   try {
-    req.session.destroy((err) => {
-      if (err) {
-        next(err);
-      } else {
-        res.status(204).end();
-      }
-      next();
-    });
   } catch (err) {
     next(err);
   }

@@ -18,9 +18,9 @@ function clientOnly() {
           return res.status(403).json(authError);
         }
         req.token = decoded;
-      });
 
-      next();
+        next();
+      });
     } catch (err) {
       next(err);
     }
