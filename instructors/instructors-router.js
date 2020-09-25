@@ -3,7 +3,7 @@ const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const secret = process.env.JWT_SECRET || "Secret word";
 
-const { instructorOnly } = require("../middleware/user-role-middleware");
+const { instructorOnly } = require("../middleware/instructor-middleware");
 const instructorsModel = require("./instructors-model");
 const usersModel = require("../users-auth/users-model");
 const router = express.Router();
