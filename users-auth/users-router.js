@@ -3,8 +3,7 @@ const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const secret = process.env.JWT_SECRET || "Secret word";
 
-// Middleware to verify account types
-// const { restrict } = require("../middleware/user-role-middleware");
+// Middleware to check for logged in status
 const { loggedIn } = require("../middleware/logged-in-middleware");
 const usersModel = require("./users-model");
 const router = express.Router();
@@ -35,8 +34,6 @@ router.get("/instructors", loggedIn(), async (req, res, next) => {
     next(err);
   }
 });
-
-// Do I need a router.get() for returning instructor details
 
 //Create new user
 router.post("/register", async (req, res, next) => {
@@ -125,7 +122,7 @@ router.post("/login", async (req, res, next) => {
   }
 });
 
-//Logout router Still broken
+//Logout router (Still broken)
 router.get("/logout", loggedIn(), async (req, res, next) => {
   try {
   } catch (err) {
