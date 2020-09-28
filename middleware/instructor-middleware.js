@@ -14,7 +14,7 @@ function instructorOnly() {
           return res.status(401).json(authError);
         }
         if (decoded.role !== "instructor") {
-          console.log("JWT.verify if(role)", decoded);
+          // console.log("JWT.verify if(role)", decoded);
           return res.status(403).json(authError);
         }
         req.token = decoded;

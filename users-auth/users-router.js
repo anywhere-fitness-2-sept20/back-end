@@ -43,7 +43,7 @@ router.post("/register", async (req, res, next) => {
 
     if (!name || !username || !password) {
       return res
-        .status(409)
+        .status(400)
         .json({ message: "Incomplete information for registration" });
     }
 
